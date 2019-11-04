@@ -1,4 +1,4 @@
-# Java-Rest Assured-TestNG-Maven
+![Proyect banner](https://i.imgur.com/CZK02VJ.png)
 ### Demo API test automation solution builded with Java and Rest Assured
 
 ### Technologies used:
