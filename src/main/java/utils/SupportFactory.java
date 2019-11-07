@@ -39,13 +39,24 @@ public class SupportFactory {
 
     // This method is to read the test data from the Excel cell, in this we are
     // passing parameters as Row num and Col num
-    public static String getCellData(int RowNum, int ColNum) throws Exception {
+    public static String getCellData(int RowNum, int ColNum) {
         try {
             Cell = ExcelWSheet.getRow(RowNum).getCell(ColNum);
             String CellData = Cell.getStringCellValue();
             return CellData;
         } catch (Exception e) {
             return "";
+        }
+    }
+
+    public static int getCellDataI(int RowNum, int ColNum) {
+        try {
+            Cell = ExcelWSheet.getRow(RowNum).getCell(ColNum);
+            double CellData = Cell.getNumericCellValue();
+            int value = ((int) CellData);
+            return value;
+        } catch (Exception e) {
+            return 0;
         }
     }
 
