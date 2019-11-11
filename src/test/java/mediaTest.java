@@ -1,0 +1,97 @@
+import io.restassured.common.mapper.TypeRef;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
+import org.hamcrest.Matchers;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.List;
+import java.util.Map;
+
+import static io.restassured.RestAssured.get;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+
+public class mediaTest extends baseTest {
+
+    private int mediaID;
+
+    private Response res = null;
+    private ValidatableResponse vres = null;
+
+    @Test(priority = 1,enabled = false)
+    public void createMedia(){
+        try{
+            res = given()
+                    //.header("Content-Disposition","form-data; filename=\"C:/cat.jpg\"")
+                    .contentType("image/jpeg")
+                    //.formParam("test-file","C:/cat.jpg")
+                    .param("filename","C:/cat.jpg")
+                    .when()
+                    .post("/media")
+                    .then().assertThat().statusCode(200)
+                    .and().contentType(ContentType.JSON).extract().response();
+
+            System.out.println(res.asString());
+        } catch (AssertionError ae) {
+            System.out.println(ae.getMessage());
+            Assert.fail();
+        }
+    }
+
+    @Test(priority = 2)
+    public void listMedia(){
+        try{
+            vres = given().when().get("/media").then().assertThat().statusCode(200).and().contentType(ContentType.JSON);
+
+            List<Map<String, Object>> media = get("/media").as(new TypeRef<List<Map<String, Object>>>() { });
+
+            this.mediaID = (int) media.get(0).get("id");
+
+            assertThat(media, hasSize(1));
+            assertThat(media.get(0).get("media_type"), Matchers.<Object>equalTo("image"));
+            assertThat(media.get(0).get("mime_type"), Matchers.<Object>equalTo("image/jpeg"));
+            assertThat(media.get(0).get("author"), Matchers.<Object>equalTo(1));
+
+            System.out.println("mediaID " + this.mediaID);
+
+        } catch (AssertionError ae) {
+            System.out.println(ae.getMessage());
+            Assert.fail();
+        }
+    }
+
+    @Test(priority = 3)
+    public void retrieveMedia() {
+        try {
+            res = given().when().get("/media/" + this.mediaID).then().assertThat().statusCode(200).and().contentType(ContentType.JSON).extract().response();
+            assertThat(res.path("id"),Matchers.<Object>equalTo(this.mediaID));
+        } catch (AssertionError | Exception e) {
+            System.out.println(e.getMessage());
+            Assert.fail();
+        }
+    }
+
+    @Test(priority = 4)
+    public void updateMedia(){
+        try {
+            res = given().when().post("/media/" + this.mediaID).then().assertThat().statusCode(200).and().contentType(ContentType.JSON).extract().response();
+            assertThat(res.path("id"),Matchers.<Object>equalTo(this.mediaID));
+        } catch (AssertionError | Exception e) {
+            System.out.println(e.getMessage());
+            Assert.fail();
+        }
+    }
+
+    @Test(priority = 5)
+    public void deleteMedia(){
+        try{
+            res = given().when().delete("/media/" + this.mediaID + "?force=true").then().assertThat().statusCode(200).and().contentType(ContentType.JSON).extract().response();
+        } catch (AssertionError | Exception e) {
+            System.out.println(e.getMessage());
+            Assert.fail();
+        }
+    }
+}

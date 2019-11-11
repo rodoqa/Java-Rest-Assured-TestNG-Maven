@@ -13,19 +13,19 @@ public class Listener implements ITestListener {
     @Override
     public void onTestSuccess(ITestResult result) {
 
-        System.out.println("Success of test cases and its details are : " + result.getName());
+        System.out.println(result.getName() + " PASSED");
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
 
-        System.out.println("Failure of test cases and its details are : " + result.getName());
+        System.out.println(result.getName() + " FAILED");
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
 
-        System.out.println("Skip of test cases and its details are : " + result.getName());
+        System.out.println(result.getName() + " SKIPPED");
     }
 
     @Override

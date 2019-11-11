@@ -1,6 +1,7 @@
 import io.restassured.RestAssured;
 import io.restassured.authentication.PreemptiveBasicAuthScheme;
 import org.testng.annotations.*;
+import utils.SupportFactory;
 
 import static utils.SupportFactory.*;
 
@@ -10,7 +11,7 @@ public class baseTest {
     public void beforeSuite(){
         try {
             setExcelFile("base");
-            RestAssured.baseURI=getCellData(1, 0);
+            RestAssured.baseURI= ipaddress();
             RestAssured.basePath=getCellData(1, 1);
             PreemptiveBasicAuthScheme authScheme = new PreemptiveBasicAuthScheme();
             authScheme.setUserName(getCellData(1, 2));

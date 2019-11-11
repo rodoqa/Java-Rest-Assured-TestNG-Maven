@@ -6,6 +6,9 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.net.InetAddress;
+import java.net.URI;
+import java.net.UnknownHostException;
 import java.util.Date;
 
 public class SupportFactory {
@@ -81,5 +84,19 @@ public class SupportFactory {
         } catch (Exception e) {
             //throw (e);
         }
+    }
+
+    public static String ipaddress()  {
+        String ip = null;
+        try{
+            InetAddress inetAddress = InetAddress.getLocalHost();
+            ip = "http://"+inetAddress.getHostAddress()+"/wordpress/";
+            System.out.println("IP: "+ inetAddress.getHostAddress());
+            System.out.println("Host: "+ inetAddress.getHostName());
+            System.out.println("URI: "+ ip);
+        }catch (UnknownHostException e){
+            e.printStackTrace();
+        }
+        return ip;
     }
 }

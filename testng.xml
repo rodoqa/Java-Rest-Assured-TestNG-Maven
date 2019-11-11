@@ -8,6 +8,8 @@
     <test name="Posts Tests" junit="false">
         <classes>
             <class name="postsTest" />
+            <class name="mediaTest" />
+            <class name="categoriesTest"/>
         </classes>
     </test>
 </suite>
