@@ -30,7 +30,6 @@ public class categoriesTest extends baseTest  {
                     queryParam("description",cat.getCat_description()).
                     queryParam("slug",cat.getCat_slug()).
                     when().post("/categories").then().assertThat().statusCode(201).and().contentType(ContentType.JSON);
-            logger.info("Create Category 201");
         } catch (AssertionError | Exception e) {
             logger.fatal("Create Category Test" + e.getMessage());
             Assert.fail();
@@ -51,7 +50,6 @@ public class categoriesTest extends baseTest  {
             assertThat(cats.get(0).get("description"), Matchers.<Object>equalTo(cat.getCat_description()));
             assertThat(cats.get(0).get("slug"), Matchers.<Object>equalTo(cat.getCat_slug()));
             assertThat(cats.get(0).get("taxonomy"), Matchers.<Object>equalTo(cat.getCat_taxonomy()));
-            logger.info("List categories 200");
         } catch (AssertionError | Exception e) {
             logger.fatal("List Categories Test" + e.getMessage());
             Assert.fail();
@@ -66,7 +64,6 @@ public class categoriesTest extends baseTest  {
             assertThat(res.path("name"), Matchers.<Object>equalTo(cat.getCat_name()));
             assertThat(res.path("description"), Matchers.<Object>equalTo(cat.getCat_description()));
             assertThat(res.path("slug"), Matchers.<Object>equalTo(cat.getCat_slug()));
-            logger.info("Retrieve Category 200");
         } catch (AssertionError | Exception e) {
             logger.fatal("Retrieve Category Test" + e.getMessage());
             Assert.fail();
@@ -81,7 +78,6 @@ public class categoriesTest extends baseTest  {
                     queryParam("description","JRTM category description (EDITED)").
                     queryParam("slug","jrtm321").
                     when().post("/categories/" + this.catID).then().assertThat().statusCode(200).and().contentType(ContentType.JSON);
-            logger.info("Update Category 200");
         } catch (AssertionError | Exception e) {
             logger.fatal("Update Category Test" + e.getMessage());
             Assert.fail();
@@ -94,7 +90,6 @@ public class categoriesTest extends baseTest  {
             given().
                     queryParam("force","true").
                     when().delete("/categories/" + this.catID).then().assertThat().statusCode(200).and().contentType(ContentType.JSON);
-            logger.info("Delete Category 201");
         } catch (AssertionError | Exception e) {
             logger.fatal("Delete Category Test" + e.getMessage());
             Assert.fail();
