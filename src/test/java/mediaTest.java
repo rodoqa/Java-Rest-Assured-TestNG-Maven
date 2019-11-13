@@ -34,9 +34,9 @@ public class mediaTest extends baseTest {
                     .then().assertThat().statusCode(200)
                     .and().contentType(ContentType.JSON).extract().response();
 
-            System.out.println(res.asString());
-        } catch (AssertionError ae) {
-            System.out.println(ae.getMessage());
+            logger.info("Create Media 200");
+        } catch (AssertionError | Exception e) {
+            logger.fatal("Create Media Test" + e.getMessage());
             Assert.fail();
         }
     }
@@ -54,11 +54,9 @@ public class mediaTest extends baseTest {
             assertThat(media.get(0).get("media_type"), Matchers.<Object>equalTo("image"));
             assertThat(media.get(0).get("mime_type"), Matchers.<Object>equalTo("image/jpeg"));
             assertThat(media.get(0).get("author"), Matchers.<Object>equalTo(1));
-
-            System.out.println("mediaID " + this.mediaID);
-
-        } catch (AssertionError ae) {
-            System.out.println(ae.getMessage());
+            logger.info("List Media 200 " + this.mediaID);
+        } catch (AssertionError | Exception e) {
+            logger.fatal("List Media Test" + e.getMessage());
             Assert.fail();
         }
     }
@@ -68,8 +66,9 @@ public class mediaTest extends baseTest {
         try {
             res = given().when().get("/media/" + this.mediaID).then().assertThat().statusCode(200).and().contentType(ContentType.JSON).extract().response();
             assertThat(res.path("id"),Matchers.<Object>equalTo(this.mediaID));
+            logger.info("Retrieve Media 200");
         } catch (AssertionError | Exception e) {
-            System.out.println(e.getMessage());
+            logger.fatal("Retrieve Media Test" + e.getMessage());
             Assert.fail();
         }
     }
@@ -79,8 +78,9 @@ public class mediaTest extends baseTest {
         try {
             res = given().when().post("/media/" + this.mediaID).then().assertThat().statusCode(200).and().contentType(ContentType.JSON).extract().response();
             assertThat(res.path("id"),Matchers.<Object>equalTo(this.mediaID));
+            logger.info("Update Media 200");
         } catch (AssertionError | Exception e) {
-            System.out.println(e.getMessage());
+            logger.fatal("Update Media Test" + e.getMessage());
             Assert.fail();
         }
     }
@@ -89,8 +89,9 @@ public class mediaTest extends baseTest {
     public void deleteMedia(){
         try{
             res = given().when().delete("/media/" + this.mediaID + "?force=true").then().assertThat().statusCode(200).and().contentType(ContentType.JSON).extract().response();
+            logger.info("Delete Media 200");
         } catch (AssertionError | Exception e) {
-            System.out.println(e.getMessage());
+            logger.fatal("Delete Media Test" + e.getMessage());
             Assert.fail();
         }
     }

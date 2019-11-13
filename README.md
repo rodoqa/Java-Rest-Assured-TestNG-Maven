@@ -9,6 +9,8 @@
 
 **Maven** - is a software project management and comprehension tool. Based on the concept of a project object model (POM), Maven can manage a project's build, reporting and documentation from a central piece of information.
 
+**Log4j** - Apache Log4j is a Java-based logging utility
+
 **Reporting** - Locally and through Jenkins there is TestNG results report available
 
 **Notification** - Slack notification is enable through Jenkins, so every Jenkins run will be send it to Slack.
@@ -38,6 +40,36 @@ public class TestRetryAnalyzer implements IRetryAnalyzer{
         return false;
     }
 }
+```
+### Logging
+
+**log4j** is implemented to logg events happennig while running tests, INFO level logg for every test and FATAL Level when Exception or Assertion Error is thrown, this solution is configured to show log in console and as well as save log in a file.
+
+log4j config file:
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration debug="true" xmlns:log4j='http://jakarta.apache.org/log4j/'>
+    <appender name="console" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
+        </layout>
+    </appender>
+    <appender name="file" class="org.apache.log4j.RollingFileAppender">
+        <param name="append" value="false" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="10" />
+        <param name="file" value="log4j.log" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
+        </layout>
+    </appender>
+    <root>
+        <level value="TRACE" />
+        <appender-ref ref="console" />
+        <appender-ref ref="file" />
+    </root>
+</log4j:configuration>
 ```
 
 ### Reporting

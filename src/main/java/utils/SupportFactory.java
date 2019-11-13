@@ -91,9 +91,9 @@ public class SupportFactory {
         try{
             InetAddress inetAddress = InetAddress.getLocalHost();
             ip = "http://"+inetAddress.getHostAddress()+"/wordpress/";
-            System.out.println("IP: "+ inetAddress.getHostAddress());
+            /*System.out.println("IP: "+ inetAddress.getHostAddress());
             System.out.println("Host: "+ inetAddress.getHostName());
-            System.out.println("URI: "+ ip);
+            System.out.println("URI: "+ ip);*/
         }catch (UnknownHostException e){
             e.printStackTrace();
         }

@@ -12,3 +12,6 @@
 
 # TestNG results folder
 target/
+
+# log4j log files
+*.log
