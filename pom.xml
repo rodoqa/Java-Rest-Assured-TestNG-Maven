@@ -23,8 +23,8 @@
                         <source>1.8</source>
                         <target>1.8</target>
                         <fork>true</fork>
-                        <executable>C:\Program Files\Java\jdk1.8.0_231\bin\javac.exe</executable>
-                        <!--<executable>${env.JAVA_HOME}\bin\javac.exe</executable>-->
+                        <!--<executable>C:\Program Files\Java\jdk1.8.0_231\bin\javac.exe</executable>-->
+                        <executable>${env.JAVA_HOME}\bin\javac.exe</executable>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -48,15 +48,6 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-        <!--<resources>
-            <resource>
-                <directory>src/main/java/resources</directory>
-                <targetPath>${project.build.directory}</targetPath>
-                <includes>
-                    <include>log4j.xml</include>
-                </includes>
-            </resource>
-        </resources>-->
     </build>
 
     <dependencies>
@@ -89,13 +80,11 @@
             <artifactId>scribejava-apis</artifactId>
             <version>5.4.0</version>
         </dependency>
-
         <dependency>
             <groupId>com.github.scribejava</groupId>
             <artifactId>scribejava-httpclient-okhttp</artifactId>
             <version>5.4.0</version>
         </dependency>
-
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -118,5 +107,4 @@
             <version>1.2.17</version>
         </dependency>
     </dependencies>
-
 </project>
