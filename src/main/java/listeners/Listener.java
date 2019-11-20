@@ -10,9 +10,7 @@ public class Listener implements ITestListener {
 
     public static final Logger logger = LogManager.getLogger(Listener.class.getName());
     @Override
-    public void onTestStart(ITestResult result) {
-        logger.info(result.getName() + " Starting");
-    }
+    public void onTestStart(ITestResult result) {  }
 
     @Override
     public void onTestSuccess(ITestResult result) {

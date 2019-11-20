@@ -9,7 +9,7 @@
 
 **Maven** - is a software project management and comprehension tool. Based on the concept of a project object model (POM), Maven can manage a project's build, reporting and documentation from a central piece of information.
 
-**Log4j** - Apache Log4j is a Java-based logging utility
+**Log4j2** - Apache Log4j2 is a Java-based logging utility
 
 **Reporting** - Locally and through Jenkins there is TestNG results report available
 
@@ -43,34 +43,16 @@ public class TestRetryAnalyzer implements IRetryAnalyzer{
 ```
 ### Logging
 
-**log4j** is implemented to logg events happennig while running tests, INFO level logg for every test and FATAL Level when Exception or Assertion Error is thrown, this solution is configured to show log in console and as well as save log in a file.
+**log4j2** is implemented to logg events happennig while running tests, this solution is configured to show logs in console and as well as save log in files (.log and .html).
 
-log4j config file:
-```xml
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
-<log4j:configuration debug="true" xmlns:log4j='http://jakarta.apache.org/log4j/'>
-    <appender name="console" class="org.apache.log4j.ConsoleAppender">
-        <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
-        </layout>
-    </appender>
-    <appender name="file" class="org.apache.log4j.RollingFileAppender">
-        <param name="append" value="false" />
-        <param name="maxFileSize" value="10MB" />
-        <param name="maxBackupIndex" value="10" />
-        <param name="file" value="log4j.log" />
-        <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
-        </layout>
-    </appender>
-    <root>
-        <level value="TRACE" />
-        <appender-ref ref="console" />
-        <appender-ref ref="file" />
-    </root>
-</log4j:configuration>
-```
+Console
+![JRTM_console log](https://i.imgur.com/PlGkE7Y.png)
+
+.log file
+![JRTM log file](https://i.imgur.com/wiEXQKJ.png)
+
+.html file
+![JRTM_html file](https://i.imgur.com/Ra1psuF.png)
 
 ### Reporting
 
@@ -94,14 +76,16 @@ project
 └───src
 │   └───main
 │   │   └───java
-│   │       └───dao
-│   │       │   └─── *DAO.java
-│   │       └───dto
-│   │       │   └─── *DTO.java
-│   │       └───listeners
-│   │       │   └─── listeners.java
-│   │       └───utils
-│   │           └─── SupporFactory.java
+│   │   |   └───dao
+│   │   |   │   └─── *DAO.java
+│   │   |   └───dto
+│   │   |   │   └─── *DTO.java
+│   │   |   └───listeners
+│   │   |   │   └─── listeners.java
+│   │   |   └───utils
+│   │   |       └─── SupporFactory.java
+│   │   └───resources
+│   │       └───log4j2.xml
 │   └───test
 │       └───java
 │           └─── *Test.java
@@ -111,6 +95,8 @@ project
 │   └───generated-test-sources
 │   └───maven-status
 │   └───test-classes
+│   └───log4j2.log
+│   └───log4j2.html
 └───pom.xml
 └───README.md
 └───testng.xml

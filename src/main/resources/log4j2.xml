@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="debug" strict="true" name="XMLConfigTest"  packages="org.apache.logging.log4j.test" >
+<Configuration status="trace" strict="true" name="XMLConfigTest"  packages="org.apache.logging.log4j.test" >
     <Properties>
         <Property name="filename">target/log4j2.log</Property>
         <Property name="htmlname">target/log4j2.html</Property>
@@ -27,7 +27,6 @@
                 <Pattern>${PLayout}</Pattern>
             </Layout>
         </Appender>
-
         <File name="LOGFILE" fileName="${htmlname}" append="false">
             <HTMLLayout charset="UTF-8" title="JRTM Logs" locationInfo="true" pattern="${PLayout}"/>
             <Policies>
@@ -35,7 +34,6 @@
                 <SizeBasedTriggeringPolicy size="10 MB" />
             </Policies>
         </File>
-
     </Appenders>
 
     <Loggers>
@@ -45,5 +43,4 @@
             <AppenderRef ref="LOGFILE" />
         </Root>
     </Loggers>
-
 </Configuration>
