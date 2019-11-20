@@ -1,11 +1,15 @@
 import io.restassured.RestAssured;
 import io.restassured.authentication.PreemptiveBasicAuthScheme;
-import org.testng.annotations.*;
-import utils.SupportFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 
 import static utils.SupportFactory.*;
 
 public class baseTest {
+
+    public static final Logger logger = LogManager.getLogger(baseTest.class.getName());
 
     @BeforeSuite
     public void beforeSuite(){
@@ -18,12 +22,12 @@ public class baseTest {
             authScheme.setPassword(getCellData(1, 3));
             RestAssured.authentication = authScheme;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.fatal("Before suite crashed: " + e.getMessage());
         }
     }
 
     @AfterSuite
     public void afterSuite(){
-        System.out.println("Done");
+
     }
 }

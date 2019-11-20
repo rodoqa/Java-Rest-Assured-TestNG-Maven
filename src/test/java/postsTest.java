@@ -33,7 +33,7 @@ public class postsTest extends baseTest {
                     queryParam("format", post.getFormat()).
                     when().post("/posts").then().assertThat().statusCode(201).and().contentType(ContentType.JSON).extract().response();
         } catch (AssertionError | Exception e) {
-            System.out.println(e.getMessage());
+            logger.fatal("Create Post Test" + e.getMessage());
             Assert.fail();
         }
     }
@@ -51,8 +51,8 @@ public class postsTest extends baseTest {
             assertThat(posts.get(0).get("status"), Matchers.<Object>equalTo(post.getStatus()));
             assertThat(posts.get(0).get("type"), Matchers.<Object>equalTo("post"));
             assertThat(posts.get(0).get("author"), Matchers.<Object>equalTo(3));
-        } catch (AssertionError ae) {
-            System.out.println(ae.getMessage());
+        } catch (AssertionError | Exception e) {
+            logger.fatal("List Post Test" + e.getMessage());
             Assert.fail();
         }
     }
@@ -62,8 +62,8 @@ public class postsTest extends baseTest {
         try {
             res = given().when().get("/posts/" + this.postID).then().assertThat().statusCode(200).and().contentType(ContentType.JSON).extract().response();
             assertThat(res.path("id"), Matchers.<Object>equalTo(this.postID));
-        } catch (AssertionError ae) {
-            System.out.println(ae.getMessage());
+        } catch (AssertionError | Exception e) {
+            logger.fatal("Retrieve Post Test" + e.getMessage());
             Assert.fail();
         }
     }
@@ -79,7 +79,7 @@ public class postsTest extends baseTest {
                     queryParam("format", post.getFormat()).
                     when().post("/posts/" + this.postID).then().assertThat().statusCode(200).and().contentType(ContentType.JSON).extract().response();
         } catch (AssertionError | Exception e) {
-            System.out.println(e.getMessage());
+            logger.fatal("Update Post Test" + e.getMessage());
             Assert.fail();
         }
     }
@@ -88,8 +88,8 @@ public class postsTest extends baseTest {
     public void deletePost() {
         try {
             given().delete("/posts/" + this.postID).then().assertThat().statusCode(200).and().contentType(ContentType.JSON);
-        } catch (AssertionError ae) {
-            System.out.println(ae.getMessage());
+        } catch (AssertionError | Exception e) {
+            logger.fatal("Delete Post Test" + e.getMessage());
             Assert.fail();
         }
     }

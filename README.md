@@ -9,6 +9,8 @@
 
 **Maven** - is a software project management and comprehension tool. Based on the concept of a project object model (POM), Maven can manage a project's build, reporting and documentation from a central piece of information.
 
+**Log4j2** - Apache Log4j2 is a Java-based logging utility
+
 **Reporting** - Locally and through Jenkins there is TestNG results report available
 
 **Notification** - Slack notification is enable through Jenkins, so every Jenkins run will be send it to Slack.
@@ -39,6 +41,18 @@ public class TestRetryAnalyzer implements IRetryAnalyzer{
     }
 }
 ```
+### Logging
+
+**log4j2** is implemented to logg events happennig while running tests, this solution is configured to show logs in console and as well as save log in files (.log and .html).
+
+Console
+![JRTM_console log](https://i.imgur.com/PlGkE7Y.png)
+
+.log file
+![JRTM log file](https://i.imgur.com/wiEXQKJ.png)
+
+.html file
+![JRTM_html file](https://i.imgur.com/Ra1psuF.png)
 
 ### Reporting
 
@@ -62,14 +76,16 @@ project
 └───src
 │   └───main
 │   │   └───java
-│   │       └───dao
-│   │       │   └─── *DAO.java
-│   │       └───dto
-│   │       │   └─── *DTO.java
-│   │       └───listeners
-│   │       │   └─── listeners.java
-│   │       └───utils
-│   │           └─── SupporFactory.java
+│   │   |   └───dao
+│   │   |   │   └─── *DAO.java
+│   │   |   └───dto
+│   │   |   │   └─── *DTO.java
+│   │   |   └───listeners
+│   │   |   │   └─── listeners.java
+│   │   |   └───utils
+│   │   |       └─── SupporFactory.java
+│   │   └───resources
+│   │       └───log4j2.xml
 │   └───test
 │       └───java
 │           └─── *Test.java
@@ -79,6 +95,8 @@ project
 │   └───generated-test-sources
 │   └───maven-status
 │   └───test-classes
+│   └───log4j2.log
+│   └───log4j2.html
 └───pom.xml
 └───README.md
 └───testng.xml

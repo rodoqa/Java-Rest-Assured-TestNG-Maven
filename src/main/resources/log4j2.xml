@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="trace" strict="true" name="XMLConfigTest"  packages="org.apache.logging.log4j.test" >
+    <Properties>
+        <Property name="filename">target/log4j2.log</Property>
+        <Property name="htmlname">target/log4j2.html</Property>
+        <Property name="PLayout">%highlight{%d{DATE} %-5level %logger{36}.%M():%L - %msg%n%throwable}{STYLE=Logback}</Property>
+    </Properties>
+    <Filter type="ThresholdFilter" level="trace"/>
+
+    <Appenders>
+        <Appender type="Console" name="STDOUT">
+            <Layout type="PatternLayout" pattern="${PLayout}"/>
+            <Filters>
+                <Filter type="MarkerFilter" marker="FLOW" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <Filter type="MarkerFilter" marker="EXCEPTION" onMatch="DENY" onMismatch="ACCEPT"/>
+            </Filters>
+        </Appender>
+        <Appender type="Console" name="FLOW">
+            <Layout type="PatternLayout" pattern="${PLayout}"/><!-- class and line number -->
+            <Filters>
+                <Filter type="MarkerFilter" marker="FLOW" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+                <Filter type="MarkerFilter" marker="EXCEPTION" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </Appender>
+        <Appender type="File" name="File" fileName="${filename}">
+            <Layout type="PatternLayout">
+                <Pattern>${PLayout}</Pattern>
+            </Layout>
+        </Appender>
+        <File name="LOGFILE" fileName="${htmlname}" append="false">
+            <HTMLLayout charset="UTF-8" title="JRTM Logs" locationInfo="true" pattern="${PLayout}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+        </File>
+    </Appenders>
+
+    <Loggers>
+        <Root level="trace">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="File"/>
+            <AppenderRef ref="LOGFILE" />
+        </Root>
+    </Loggers>
+</Configuration>

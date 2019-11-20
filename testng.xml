@@ -5,11 +5,12 @@
         <listener class-name="listeners.Listener"/>
         <listener class-name="listeners.TestRetryAnalyzerListener" />
     </listeners>
-    <test name="Posts Tests" junit="false">
+    <test name="JRTM Tests" junit="false">
         <classes>
             <class name="postsTest" />
             <class name="mediaTest" />
             <class name="categoriesTest"/>
+            <class name="tagTest"/>
         </classes>
     </test>
 </suite>

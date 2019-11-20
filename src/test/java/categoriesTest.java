@@ -31,7 +31,7 @@ public class categoriesTest extends baseTest  {
                     queryParam("slug",cat.getCat_slug()).
                     when().post("/categories").then().assertThat().statusCode(201).and().contentType(ContentType.JSON);
         } catch (AssertionError | Exception e) {
-            System.out.println(e.getMessage());
+            logger.fatal("Create Category Test" + e.getMessage());
             Assert.fail();
         }
     }
@@ -51,7 +51,7 @@ public class categoriesTest extends baseTest  {
             assertThat(cats.get(0).get("slug"), Matchers.<Object>equalTo(cat.getCat_slug()));
             assertThat(cats.get(0).get("taxonomy"), Matchers.<Object>equalTo(cat.getCat_taxonomy()));
         } catch (AssertionError | Exception e) {
-            System.out.println(e.getMessage());
+            logger.fatal("List Categories Test" + e.getMessage());
             Assert.fail();
         }
     }
@@ -65,7 +65,7 @@ public class categoriesTest extends baseTest  {
             assertThat(res.path("description"), Matchers.<Object>equalTo(cat.getCat_description()));
             assertThat(res.path("slug"), Matchers.<Object>equalTo(cat.getCat_slug()));
         } catch (AssertionError | Exception e) {
-            System.out.println(e.getMessage());
+            logger.fatal("Retrieve Category Test" + e.getMessage());
             Assert.fail();
         }
     }
@@ -79,7 +79,7 @@ public class categoriesTest extends baseTest  {
                     queryParam("slug","jrtm321").
                     when().post("/categories/" + this.catID).then().assertThat().statusCode(200).and().contentType(ContentType.JSON);
         } catch (AssertionError | Exception e) {
-            System.out.println(e.getMessage());
+            logger.fatal("Update Category Test" + e.getMessage());
             Assert.fail();
         }
     }
@@ -91,7 +91,7 @@ public class categoriesTest extends baseTest  {
                     queryParam("force","true").
                     when().delete("/categories/" + this.catID).then().assertThat().statusCode(200).and().contentType(ContentType.JSON);
         } catch (AssertionError | Exception e) {
-            System.out.println(e.getMessage());
+            logger.fatal("Delete Category Test" + e.getMessage());
             Assert.fail();
         }
     }

@@ -4,10 +4,10 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.net.InetAddress;
-import java.net.URI;
 import java.net.UnknownHostException;
 import java.util.Date;
 
@@ -91,9 +91,9 @@ public class SupportFactory {
         try{
             InetAddress inetAddress = InetAddress.getLocalHost();
             ip = "http://"+inetAddress.getHostAddress()+"/wordpress/";
-            System.out.println("IP: "+ inetAddress.getHostAddress());
+            /*System.out.println("IP: "+ inetAddress.getHostAddress());
             System.out.println("Host: "+ inetAddress.getHostName());
-            System.out.println("URI: "+ ip);
+            System.out.println("URI: "+ ip);*/
         }catch (UnknownHostException e){
             e.printStackTrace();
         }
