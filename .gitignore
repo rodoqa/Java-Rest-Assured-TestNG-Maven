@@ -13,5 +13,8 @@
 # TestNG results folder
 target/
 
+# Extent Report results folder
+test-output/
+
 # log4j log files
 *.log

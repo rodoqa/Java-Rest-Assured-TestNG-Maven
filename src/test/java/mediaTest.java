@@ -42,7 +42,11 @@ public class mediaTest extends baseTest {
     @Test(priority = 2)
     public void listMedia(){
         try{
-            vres = given().when().get("/media").then().assertThat().statusCode(200).and().contentType(ContentType.JSON);
+            vres = given().
+                    when().get("/media")
+                    .then().assertThat().statusCode(200)
+                    .and().contentType(ContentType.JSON)
+                    .and().time(Matchers.lessThan(2000L));
 
             List<Map<String, Object>> media = get("/media").as(new TypeRef<List<Map<String, Object>>>() { });
 
@@ -61,8 +65,24 @@ public class mediaTest extends baseTest {
     @Test(priority = 3)
     public void retrieveMedia() {
         try {
-            res = given().when().get("/media/" + this.mediaID).then().assertThat().statusCode(200).and().contentType(ContentType.JSON).extract().response();
-            assertThat(res.path("id"),Matchers.<Object>equalTo(this.mediaID));
+            given().
+                    when().get("/media/" + this.mediaID)
+                    .then().assertThat().statusCode(200)
+                    .and().contentType(ContentType.JSON)
+                    .and().time(Matchers.lessThan(2000L))
+                    .and().body("id", Matchers.equalTo(this.mediaID))
+                    .and().body("type", Matchers.equalTo("attachment"))
+                    .and().body("author", Matchers.equalTo(1))
+                    .and().body("media_type", Matchers.equalTo("image"))
+                    .and().body("mime_type", Matchers.equalTo("image/jpeg"))
+                    .and().header("Content-Type", Matchers.equalTo("application/json; charset=UTF-8"))
+                    .and().header("Connection", Matchers.equalTo("Keep-Alive"))
+                    .and().header("Keep-Alive", Matchers.equalTo("timeout=5, max=100"))
+                    .and().header("Allow", Matchers.equalTo("GET, POST, PUT, PATCH, DELETE"))
+                    .and().header("Cache-Control", Matchers.equalTo("no-cache, must-revalidate, max-age=0"))
+                    .and().header("Access-Control-Allow-Headers", Matchers.equalTo("Authorization, Content-Type"))
+                    .and().header("Access-Control-Expose-Headers", Matchers.equalTo("X-WP-Total, X-WP-TotalPages"))
+                    .and().header("X-Content-Type-Options", Matchers.equalTo("nosniff"));
         } catch (AssertionError | Exception e) {
             logger.fatal("Retrieve Media Test" + e.getMessage());
             Assert.fail();
@@ -72,8 +92,24 @@ public class mediaTest extends baseTest {
     @Test(priority = 4)
     public void updateMedia(){
         try {
-            res = given().when().post("/media/" + this.mediaID).then().assertThat().statusCode(200).and().contentType(ContentType.JSON).extract().response();
-            assertThat(res.path("id"),Matchers.<Object>equalTo(this.mediaID));
+            given().
+                    when().post("/media/" + this.mediaID)
+                    .then().assertThat().statusCode(200)
+                    .and().contentType(ContentType.JSON)
+                    .and().time(Matchers.lessThan(2000L))
+                    .and().body("id", Matchers.equalTo(this.mediaID))
+                    .and().body("type", Matchers.equalTo("attachment"))
+                    .and().body("author", Matchers.equalTo(1))
+                    .and().body("media_type", Matchers.equalTo("image"))
+                    .and().body("mime_type", Matchers.equalTo("image/jpeg"))
+                    .and().header("Content-Type", Matchers.equalTo("application/json; charset=UTF-8"))
+                    .and().header("Connection", Matchers.equalTo("Keep-Alive"))
+                    .and().header("Keep-Alive", Matchers.equalTo("timeout=5, max=100"))
+                    .and().header("Allow", Matchers.equalTo("GET, POST, PUT, PATCH, DELETE"))
+                    .and().header("Cache-Control", Matchers.equalTo("no-cache, must-revalidate, max-age=0"))
+                    .and().header("Access-Control-Allow-Headers", Matchers.equalTo("Authorization, Content-Type"))
+                    .and().header("Access-Control-Expose-Headers", Matchers.equalTo("X-WP-Total, X-WP-TotalPages"))
+                    .and().header("X-Content-Type-Options", Matchers.equalTo("nosniff"));
         } catch (AssertionError | Exception e) {
             logger.fatal("Update Media Test" + e.getMessage());
             Assert.fail();
@@ -83,7 +119,24 @@ public class mediaTest extends baseTest {
     @Test(priority = 5)
     public void deleteMedia(){
         try{
-            res = given().when().delete("/media/" + this.mediaID + "?force=true").then().assertThat().statusCode(200).and().contentType(ContentType.JSON).extract().response();
+            given().
+                    when().delete("/media/" + this.mediaID + "?force=true")
+                    .then().assertThat().statusCode(200)
+                    .and().contentType(ContentType.JSON)
+                    .and().time(Matchers.lessThan(2000L))
+                    .and().body("deleted", Matchers.equalTo(true))
+                    .and().body("previous.id", Matchers.equalTo(this.mediaID))
+                    .and().body("previous.type", Matchers.equalTo("attachment"))
+                    .and().body("previous.author", Matchers.equalTo(1))
+                    .and().body("previous.media_type", Matchers.equalTo("image"))
+                    .and().body("previous.mime_type", Matchers.equalTo("image/jpeg"))
+                    .and().header("Content-Type", Matchers.equalTo("application/json; charset=UTF-8"))
+                    .and().header("Connection", Matchers.equalTo("Keep-Alive"))
+                    .and().header("Keep-Alive", Matchers.equalTo("timeout=5, max=100"))
+                    .and().header("Cache-Control", Matchers.equalTo("no-cache, must-revalidate, max-age=0"))
+                    .and().header("Access-Control-Allow-Headers", Matchers.equalTo("Authorization, Content-Type"))
+                    .and().header("Access-Control-Expose-Headers", Matchers.equalTo("X-WP-Total, X-WP-TotalPages"))
+                    .and().header("X-Content-Type-Options", Matchers.equalTo("nosniff"));
         } catch (AssertionError | Exception e) {
             logger.fatal("Delete Media Test" + e.getMessage());
             Assert.fail();

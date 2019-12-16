@@ -4,6 +4,7 @@
     <listeners>
         <listener class-name="listeners.Listener"/>
         <listener class-name="listeners.TestRetryAnalyzerListener" />
+        <listener class-name="listeners.ExtentReporter" />
     </listeners>
     <test name="JRTM Tests" junit="false">
         <classes>
