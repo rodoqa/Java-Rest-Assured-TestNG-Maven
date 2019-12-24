@@ -31,7 +31,7 @@ public class tagTest extends baseTest {
                     when().post("/tags").then().assertThat().statusCode(201).and().contentType(ContentType.JSON);
         } catch (AssertionError | Exception e) {
             logger.fatal("Create Tag Test" + e.getMessage());
-            Assert.fail();
+            Assert.fail(e.getMessage());
         }
     }
 
@@ -51,7 +51,7 @@ public class tagTest extends baseTest {
             assertThat(tags.get(0).get("taxonomy"), Matchers.<Object>equalTo(tag.getTag_taxonomy()));
         } catch (AssertionError | Exception e) {
             logger.fatal("List Tags Test" + e.getMessage());
-            Assert.fail();
+            Assert.fail(e.getMessage());
         }
     }
 
@@ -65,7 +65,7 @@ public class tagTest extends baseTest {
             assertThat(res.path("slug"), Matchers.<Object>equalTo(tag.getTag_slug()));
         } catch (AssertionError | Exception e) {
             logger.fatal("Retrieve Tag Test" + e.getMessage());
-            Assert.fail();
+            Assert.fail(e.getMessage());
         }
     }
 
@@ -79,7 +79,7 @@ public class tagTest extends baseTest {
                     when().post("/tags/" + this.tagID).then().assertThat().statusCode(200).and().contentType(ContentType.JSON);
         } catch (AssertionError | Exception e) {
             logger.fatal("Update Tag Test" + e.getMessage());
-            Assert.fail();
+            Assert.fail(e.getMessage());
         }
     }
 
@@ -91,7 +91,7 @@ public class tagTest extends baseTest {
                     when().delete("/tags/" + this.tagID).then().assertThat().statusCode(200).and().contentType(ContentType.JSON);
         } catch (AssertionError | Exception e) {
             logger.fatal("Delete Tag Test" + e.getMessage());
-            Assert.fail();
+            Assert.fail(e.getMessage());
         }
     }
 }

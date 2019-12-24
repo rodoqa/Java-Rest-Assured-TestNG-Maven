@@ -1,6 +1,8 @@
 ![Proyect banner](https://i.imgur.com/CZK02VJ.png)
 ### Demo API test automation solution builded with Java and Rest Assured
 
+### Update 16 dic 2019: Since 5.3.1 wp update now the api requires Nonce (Number used ONCE) for some endpoints so until i find howto handle it i'll not be able to continue working with +5.3 wp
+
 ### Technologies used:
 
 **Rest Assured** - Testing and validating REST services in Java is harder than in dynamic languages such as Ruby and Groovy. REST Assured brings the simplicity of using these languages into the Java domain.

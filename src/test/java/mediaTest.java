@@ -35,7 +35,7 @@ public class mediaTest extends baseTest {
                     .and().contentType(ContentType.JSON).extract().response();
         } catch (AssertionError | Exception e) {
             logger.fatal("Create Media Test" + e.getMessage());
-            Assert.fail();
+            Assert.fail(e.getMessage());
         }
     }
 
@@ -58,7 +58,7 @@ public class mediaTest extends baseTest {
             assertThat(media.get(0).get("author"), Matchers.<Object>equalTo(1));
         } catch (AssertionError | Exception e) {
             logger.fatal("List Media Test" + e.getMessage());
-            Assert.fail();
+            Assert.fail(e.getMessage());
         }
     }
 
@@ -72,7 +72,7 @@ public class mediaTest extends baseTest {
                     .and().time(Matchers.lessThan(2000L))
                     .and().body("id", Matchers.equalTo(this.mediaID))
                     .and().body("type", Matchers.equalTo("attachment"))
-                    .and().body("author", Matchers.equalTo(1))
+                    .and().body("author", Matchers.equalTo(3))
                     .and().body("media_type", Matchers.equalTo("image"))
                     .and().body("mime_type", Matchers.equalTo("image/jpeg"))
                     .and().header("Content-Type", Matchers.equalTo("application/json; charset=UTF-8"))
@@ -85,7 +85,7 @@ public class mediaTest extends baseTest {
                     .and().header("X-Content-Type-Options", Matchers.equalTo("nosniff"));
         } catch (AssertionError | Exception e) {
             logger.fatal("Retrieve Media Test" + e.getMessage());
-            Assert.fail();
+            Assert.fail(e.getMessage());
         }
     }
 
@@ -112,7 +112,7 @@ public class mediaTest extends baseTest {
                     .and().header("X-Content-Type-Options", Matchers.equalTo("nosniff"));
         } catch (AssertionError | Exception e) {
             logger.fatal("Update Media Test" + e.getMessage());
-            Assert.fail();
+            Assert.fail(e.getMessage());
         }
     }
 
@@ -127,7 +127,7 @@ public class mediaTest extends baseTest {
                     .and().body("deleted", Matchers.equalTo(true))
                     .and().body("previous.id", Matchers.equalTo(this.mediaID))
                     .and().body("previous.type", Matchers.equalTo("attachment"))
-                    .and().body("previous.author", Matchers.equalTo(1))
+                    .and().body("previous.author", Matchers.equalTo(3))
                     .and().body("previous.media_type", Matchers.equalTo("image"))
                     .and().body("previous.mime_type", Matchers.equalTo("image/jpeg"))
                     .and().header("Content-Type", Matchers.equalTo("application/json; charset=UTF-8"))
@@ -139,7 +139,7 @@ public class mediaTest extends baseTest {
                     .and().header("X-Content-Type-Options", Matchers.equalTo("nosniff"));
         } catch (AssertionError | Exception e) {
             logger.fatal("Delete Media Test" + e.getMessage());
-            Assert.fail();
+            Assert.fail(e.getMessage());
         }
     }
 }

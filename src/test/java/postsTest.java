@@ -42,7 +42,7 @@ public class postsTest extends baseTest {
                     .and().time(Matchers.lessThan(2000L));
         } catch (AssertionError | Exception e) {
             logger.fatal("Create Post Test" + e.getMessage());
-            Assert.fail();
+            Assert.fail(e.getMessage());
         }
     }
 
@@ -67,7 +67,7 @@ public class postsTest extends baseTest {
             assertThat(posts.get(0).get("format"), Matchers.equalTo("standard"));
         } catch (AssertionError | Exception e) {
             logger.fatal("List Post Test" + e.getMessage());
-            Assert.fail();
+            Assert.fail(e.getMessage());
         }
     }
 
@@ -95,7 +95,7 @@ public class postsTest extends baseTest {
                     .and().header("X-Content-Type-Options", Matchers.equalTo("nosniff"));
         } catch (AssertionError | Exception e) {
             logger.fatal("Retrieve Post Test" + e.getMessage());
-            Assert.fail();
+            Assert.fail(e.getMessage());
         }
     }
 
@@ -128,7 +128,7 @@ public class postsTest extends baseTest {
                     .and().header("X-Content-Type-Options", Matchers.equalTo("nosniff"));
         } catch (AssertionError | Exception e) {
             logger.fatal("Update Post Test" + e.getMessage());
-            Assert.fail();
+            Assert.fail(e.getMessage());
         }
     }
 
@@ -155,7 +155,7 @@ public class postsTest extends baseTest {
                     .and().header("X-Content-Type-Options", Matchers.equalTo("nosniff"));
         } catch (AssertionError | Exception e) {
             logger.fatal("Delete Post Test" + e.getMessage());
-            Assert.fail();
+            Assert.fail(e.getMessage());
         }
     }
 }
