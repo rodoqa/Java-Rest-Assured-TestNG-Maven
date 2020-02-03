@@ -1,8 +1,12 @@
 import dao.CatDAO;
+import dao.ResponseCodesDAO;
 import dto.CatDTO;
+import dto.ResponseCodesDTO;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hamcrest.Matchers;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -21,18 +25,27 @@ public class categoriesTest extends baseTest  {
     private CatDAO catDao = new CatDAO();
     private CatDTO cat = catDao.filler();
     private Response res = null;
+    private ResponseCodesDAO rcDAO = new ResponseCodesDAO();
+    private ResponseCodesDTO rcDTO = new ResponseCodesDTO();
+
+    public static final Logger logger = LogManager.getLogger(categoriesTest.class.getName());
 
     @Test(priority = 1)
     public void createCategory() {
         try {
-            given().
+            res = given().
                     log().ifValidationFails().
                     queryParam("name",cat.getCat_name()).
                     queryParam("description",cat.getCat_description()).
                     queryParam("slug",cat.getCat_slug()).
-                    when().post("/categories").then().assertThat().statusCode(201).and().contentType(ContentType.JSON);
+                    when().post("/categories").then().assertThat().statusCode(201).and().contentType(ContentType.JSON).extract().response();
+
+            int sc = res.getStatusCode();
+            rcDTO = rcDAO.getCodeName(sc);
+
+            logger.info(Thread.currentThread().getStackTrace()[1].getMethodName()+ " " + rcDTO.getDetailStatusCode());
         } catch (AssertionError | Exception e) {
-            logger.fatal("Create Category Test" + e.getMessage());
+            logger.fatal(Thread.currentThread().getStackTrace()[1].getMethodName()+ " " + rcDTO.getDetailStatusCode());
             Assert.fail(e.getMessage());
         }
     }
@@ -40,7 +53,7 @@ public class categoriesTest extends baseTest  {
     @Test(priority = 2)
     public void listCategories() {
         try {
-            given().log().ifValidationFails().when().get("/categories").then().assertThat().statusCode(200).and().contentType(ContentType.JSON);
+            res = given().log().ifValidationFails().when().get("/categories").then().assertThat().statusCode(200).and().contentType(ContentType.JSON).extract().response();
 
             List<Map<String, Object>> cats = get("/categories").as(new TypeRef<List<Map<String, Object>>>() { });
 
@@ -51,8 +64,13 @@ public class categoriesTest extends baseTest  {
             assertThat(cats.get(0).get("description"), Matchers.<Object>equalTo(cat.getCat_description()));
             assertThat(cats.get(0).get("slug"), Matchers.<Object>equalTo(cat.getCat_slug()));
             assertThat(cats.get(0).get("taxonomy"), Matchers.<Object>equalTo(cat.getCat_taxonomy()));
+
+            int sc = res.getStatusCode();
+            rcDTO = rcDAO.getCodeName(sc);
+
+            logger.info(Thread.currentThread().getStackTrace()[1].getMethodName()+ " " + rcDTO.getDetailStatusCode());
         } catch (AssertionError | Exception e) {
-            logger.fatal("List Categories Test" + e.getMessage());
+            logger.fatal(Thread.currentThread().getStackTrace()[1].getMethodName()+ " " + rcDTO.getDetailStatusCode());
             Assert.fail(e.getMessage());
         }
     }
@@ -65,8 +83,13 @@ public class categoriesTest extends baseTest  {
             assertThat(res.path("name"), Matchers.<Object>equalTo(cat.getCat_name()));
             assertThat(res.path("description"), Matchers.<Object>equalTo(cat.getCat_description()));
             assertThat(res.path("slug"), Matchers.<Object>equalTo(cat.getCat_slug()));
+
+            int sc = res.getStatusCode();
+            rcDTO = rcDAO.getCodeName(sc);
+
+            logger.info(Thread.currentThread().getStackTrace()[1].getMethodName()+ " " + rcDTO.getDetailStatusCode());
         } catch (AssertionError | Exception e) {
-            logger.fatal("Retrieve Category Test" + e.getMessage());
+            logger.fatal(Thread.currentThread().getStackTrace()[1].getMethodName()+ " " + rcDTO.getDetailStatusCode());
             Assert.fail(e.getMessage());
         }
     }
@@ -74,13 +97,18 @@ public class categoriesTest extends baseTest  {
     @Test(priority = 4)
     public void updateCategory() {
         try {
-            given().log().ifValidationFails().
+            res = given().log().ifValidationFails().
                     queryParam("name",cat.getCat_name() + " (EDITED)").
                     queryParam("description","JRTM category description (EDITED)").
                     queryParam("slug","jrtm321").
-                    when().post("/categories/" + this.catID).then().assertThat().statusCode(200).and().contentType(ContentType.JSON);
+                    when().post("/categories/" + this.catID).then().assertThat().statusCode(200).and().contentType(ContentType.JSON).extract().response();
+
+            int sc = res.getStatusCode();
+            rcDTO = rcDAO.getCodeName(sc);
+
+            logger.info(Thread.currentThread().getStackTrace()[1].getMethodName()+ " " + rcDTO.getDetailStatusCode());
         } catch (AssertionError | Exception e) {
-            logger.fatal("Update Category Test" + e.getMessage());
+            logger.fatal(Thread.currentThread().getStackTrace()[1].getMethodName()+ " " + rcDTO.getDetailStatusCode());
             Assert.fail(e.getMessage());
         }
     }
@@ -88,11 +116,16 @@ public class categoriesTest extends baseTest  {
     @Test(priority = 5)
     public void deleteCategory() {
         try {
-            given().log().ifValidationFails().
+            res = given().log().ifValidationFails().
                     queryParam("force","true").
-                    when().delete("/categories/" + this.catID).then().assertThat().statusCode(200).and().contentType(ContentType.JSON);
+                    when().delete("/categories/" + this.catID).then().assertThat().statusCode(200).and().contentType(ContentType.JSON).extract().response();
+
+            int sc = res.getStatusCode();
+            rcDTO = rcDAO.getCodeName(sc);
+
+            logger.info(Thread.currentThread().getStackTrace()[1].getMethodName()+ " " + rcDTO.getDetailStatusCode());
         } catch (AssertionError | Exception e) {
-            logger.fatal("Delete Category Test" + e.getMessage());
+            logger.fatal(Thread.currentThread().getStackTrace()[1].getMethodName()+ " " + rcDTO.getDetailStatusCode());
             Assert.fail(e.getMessage());
         }
     }

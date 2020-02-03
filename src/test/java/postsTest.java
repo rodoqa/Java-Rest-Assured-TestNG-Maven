@@ -1,9 +1,12 @@
 import dao.PostDAO;
+import dao.ResponseCodesDAO;
 import dto.PostDTO;
+import dto.ResponseCodesDTO;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.hamcrest.Matcher;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hamcrest.Matchers;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -22,11 +25,15 @@ public class postsTest extends baseTest {
     private PostDAO postDao = new PostDAO();
     private PostDTO post = postDao.filler();
     private Response res = null;
+    private ResponseCodesDAO rcDAO = new ResponseCodesDAO();
+    private ResponseCodesDTO rcDTO = new ResponseCodesDTO();
+
+    public static final Logger logger = LogManager.getLogger(postsTest.class.getName());
 
     @Test(priority = 1)
     public void createPost() {
         try {
-            given().
+            res = given().
                     queryParam("title", post.getTitle()).
                     queryParam("content", post.getPostContent()).
                     queryParam("author", post.getAuthor()).
@@ -39,9 +46,14 @@ public class postsTest extends baseTest {
                     .and().body("author", Matchers.equalTo(3))
                     .and().body("format", Matchers.equalTo("standard"))
                     .and().header("Allow", Matchers.equalTo("GET, POST"))
-                    .and().time(Matchers.lessThan(2000L));
+                    .and().time(Matchers.lessThan(2000L)).extract().response();
+
+            int sc = res.getStatusCode();
+            rcDTO = rcDAO.getCodeName(sc);
+
+            logger.info(Thread.currentThread().getStackTrace()[1].getMethodName()+ " " + rcDTO.getDetailStatusCode());
         } catch (AssertionError | Exception e) {
-            logger.fatal("Create Post Test" + e.getMessage());
+            logger.fatal(Thread.currentThread().getStackTrace()[1].getMethodName()+ " " + rcDTO.getDetailStatusCode());
             Assert.fail(e.getMessage());
         }
     }
@@ -49,11 +61,11 @@ public class postsTest extends baseTest {
     @Test(priority = 2)
     public void listPosts() {
         try {
-            given().
+            res = given().
                     when().get("/posts")
                     .then().assertThat().statusCode(200)
                     .and().contentType(ContentType.JSON)
-                    .and().time(Matchers.lessThan(2000L));
+                    .and().time(Matchers.lessThan(2000L)).extract().response();
 
             List<Map<String, Object>> posts = get("/posts").as(new TypeRef<List<Map<String, Object>>>() {
             });
@@ -65,8 +77,10 @@ public class postsTest extends baseTest {
             assertThat(posts.get(0).get("type"), Matchers.<Object>equalTo("post"));
             assertThat(posts.get(0).get("author"), Matchers.<Object>equalTo(3));
             assertThat(posts.get(0).get("format"), Matchers.equalTo("standard"));
+
+            logger.info(Thread.currentThread().getStackTrace()[1].getMethodName()+ " " + rcDTO.getDetailStatusCode());
         } catch (AssertionError | Exception e) {
-            logger.fatal("List Post Test" + e.getMessage());
+            logger.fatal(Thread.currentThread().getStackTrace()[1].getMethodName()+ " " + rcDTO.getDetailStatusCode());
             Assert.fail(e.getMessage());
         }
     }
@@ -74,7 +88,7 @@ public class postsTest extends baseTest {
     @Test(priority = 3)
     public void retrievePost() {
         try {
-            given().
+            res = given().
                     when().get("/posts/" + this.postID)
                     .then().assertThat().statusCode(200)
                     .and().contentType(ContentType.JSON)
@@ -92,9 +106,11 @@ public class postsTest extends baseTest {
                     .and().header("Cache-Control", Matchers.equalTo("no-cache, must-revalidate, max-age=0"))
                     .and().header("Access-Control-Allow-Headers", Matchers.equalTo("Authorization, Content-Type"))
                     .and().header("Access-Control-Expose-Headers", Matchers.equalTo("X-WP-Total, X-WP-TotalPages"))
-                    .and().header("X-Content-Type-Options", Matchers.equalTo("nosniff"));
+                    .and().header("X-Content-Type-Options", Matchers.equalTo("nosniff")).extract().response();
+
+            logger.info(Thread.currentThread().getStackTrace()[1].getMethodName()+ " " + rcDTO.getDetailStatusCode());
         } catch (AssertionError | Exception e) {
-            logger.fatal("Retrieve Post Test" + e.getMessage());
+            logger.fatal(Thread.currentThread().getStackTrace()[1].getMethodName()+ " " + rcDTO.getDetailStatusCode());
             Assert.fail(e.getMessage());
         }
     }
@@ -102,7 +118,7 @@ public class postsTest extends baseTest {
     @Test(priority = 4)
     public void updatePost() {
         try {
-            given().
+            res = given().
                     queryParam("title", post.getTitle()).
                     queryParam("content", post.getPostContent()).
                     queryParam("author", post.getAuthor()).
@@ -125,9 +141,10 @@ public class postsTest extends baseTest {
                     .and().header("Cache-Control", Matchers.equalTo("no-cache, must-revalidate, max-age=0"))
                     .and().header("Access-Control-Allow-Headers", Matchers.equalTo("Authorization, Content-Type"))
                     .and().header("Access-Control-Expose-Headers", Matchers.equalTo("X-WP-Total, X-WP-TotalPages"))
-                    .and().header("X-Content-Type-Options", Matchers.equalTo("nosniff"));
+                    .and().header("X-Content-Type-Options", Matchers.equalTo("nosniff")).extract().response();
+            logger.info(Thread.currentThread().getStackTrace()[1].getMethodName()+ " " + rcDTO.getDetailStatusCode());
         } catch (AssertionError | Exception e) {
-            logger.fatal("Update Post Test" + e.getMessage());
+            logger.fatal(Thread.currentThread().getStackTrace()[1].getMethodName()+ " " + rcDTO.getDetailStatusCode());
             Assert.fail(e.getMessage());
         }
     }
@@ -135,7 +152,7 @@ public class postsTest extends baseTest {
     @Test(priority = 5)
     public void deletePost() {
         try {
-            given().
+            res = given().
                     delete("/posts/" + this.postID)
                     .then().assertThat().statusCode(200)
                     .and().contentType(ContentType.JSON)
@@ -152,9 +169,11 @@ public class postsTest extends baseTest {
                     .and().header("Cache-Control", Matchers.equalTo("no-cache, must-revalidate, max-age=0"))
                     .and().header("Access-Control-Allow-Headers", Matchers.equalTo("Authorization, Content-Type"))
                     .and().header("Access-Control-Expose-Headers", Matchers.equalTo("X-WP-Total, X-WP-TotalPages"))
-                    .and().header("X-Content-Type-Options", Matchers.equalTo("nosniff"));
+                    .and().header("X-Content-Type-Options", Matchers.equalTo("nosniff")).extract().response();
+
+            logger.info(Thread.currentThread().getStackTrace()[1].getMethodName()+ " " + rcDTO.getDetailStatusCode());
         } catch (AssertionError | Exception e) {
-            logger.fatal("Delete Post Test" + e.getMessage());
+            logger.fatal(Thread.currentThread().getStackTrace()[1].getMethodName()+ " " + rcDTO.getDetailStatusCode());
             Assert.fail(e.getMessage());
         }
     }
